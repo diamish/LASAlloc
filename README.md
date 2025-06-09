@@ -1,136 +1,39 @@
+# LASALloc – Route Optimization for Air Logistics ✈️
 
-/*
- * LALLOC Main test
- * 
- * Choose test by using macro SIMPLETEST1 or SIMPLETEST2
- */ 
-#define SIMPLETEST1
+**LASALloc** is a C++ program that simulates an air logistics route planner. It reads airport location data, stores it in a custom linked list, and performs basic geospatial analysis to help determine optimal routing. The program identifies the farthest airport from Austin-Bergstrom International Airport (AUS) and lists all airports within a 100-mile radius of AUS.
 
+## Features
 
+- Custom singly linked list (no STL containers used)
+- Stores airport data including name and coordinates
+- Calculates distance from AUS using latitude and longitude
+- Finds the farthest airport from AUS
+- Lists all airports within 100 miles of AUS
+- Clean terminal output
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include"LASAalloc.h"
+## File Structure
 
+## How to Compile and Run
 
+### Requirements
+- A C++ compiler (like `g++`)
+- Terminal or command line access
 
-#ifdef SIMPLETEST1
-int main(int argc, char *argv[])
-{
-	
-	LASAalloc	lasa;
+### Compilation
+```bash
+g++ main.cpp Airport.cpp LinkedList.cpp Utilities.cpp -o lasalloc
+./lasalloc
+Sample Input (airports.txt)
+Houston,29.7604,-95.3698
+Dallas,32.7767,-96.7970
+San Antonio,29.4241,-98.4936
+El Paso,31.7619,-106.4850
+Austin,30.2672,-97.7431
+Sample Output
+Farthest airport from AUS: El Paso (Distance: 528 miles)
 
-	
-	char *array;
-	int i;
-
-	array = (char *)lasa.lalloc(10);
-	if(array == NULL)
-	{
-		fprintf(stderr,"call to lasa.lalloc() failed\n");
-		fflush(stderr);
-		exit(1);
-	}
-
-	for(i=0; i < 9; i++)
-	{
-		array[i] = 'a' + i;
-	}
-	array[9] = 0;
-
-	printf("here is my nifty new string: %s\n",array);
-
-	lasa.lfree(array);
-
-	return(0);
-}
-
-	
-#endif //SIMPLETEST1
-
-#ifdef SIMPLETEST2
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "LASAalloc.h"
-
-int main(int argc, char *argv[])
-{
-	char *a1;
-	char *a2;
-	char *a3;
-	char *a4;
-
-	
-	LASAalloc	lasa;
+Airports within 100 miles of AUS:
+- San Antonio (Distance: 73 miles)
+- Austin (Distance: 0 miles)
 
 
-
-	a1 = (char *)MyMalloc(128);
-	if(a1 == NULL)
-	{
-		fprintf(stderr,"call to lasa.lalloc(128) failed\n");
-		fflush(stderr);
-		exit(1);
-	}
-
-	printf("FREE LIST after malloc(128)\n");
-	lasa.display();
-
-	a2 = (char *)lasa.lalloc(32);
-	if(a2 == NULL)
-	{
-		fprintf(stderr,"first call to lasa.lalloc(32) failed\n");
-		fflush(stderr);
-		exit(1);
-	}
-
-	printf("FREE LIST after malloc(32)\n");
-	lasa.display();
-
-	lasa.lfree(a1);
-
-	printf("FREE LIST after free of first 128 malloc()\n");
-	lasa.display();
-
-	a3 = (char *)lasa.lalloc(104);
-	if(a3 == NULL)
-	{
-		fprintf(stderr,"call to lasa.lalloc(104) failed\n");
-		fflush(stderr);
-		exit(1);
-	}
-
-	printf("FREE LIST after malloc(104)\n");
-	lasa.display();
-
-	a4 = (char *)lasa.lalloc(8);
-	if(a4 == NULL)
-	{
-		fprintf(stderr,"call to lasa.lalloc(8) failed\n");
-		fflush(stderr);
-		exit(1);
-	}
-	printf("FREE LIST after malloc(8)\n");
-	lasa.display();
-
-	/*
-	 * free it all -- notice that a1 is already free
-	 */
-	lasa.lfree(a2);
-	lasa.lfree(a3);
-	lasa.lfree(a4);
-	printf("FREE LIST after all free\n");
-	lasa.display();
-
-
-	return(0);
-}
-
-	
-
-#endif	//ACTIVE
